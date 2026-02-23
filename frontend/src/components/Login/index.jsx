@@ -5,13 +5,13 @@ import "./index.css";
 const Login = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleEmail = (event) => {
-    setEmail(event.target.value);
+  const handleUsername = (event) => {
+    setUsername(event.target.value);
   };
 
   const handlePassword = (event) => {
@@ -24,7 +24,7 @@ const Login = () => {
     setError("")
     const url = "http://localhost:5000/auth/login";
     const userDetails = {
-      email,
+      username,
       password
     }
   
@@ -63,11 +63,11 @@ const Login = () => {
         {error && <p className="error-text">{error}</p>}
 
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmail}
+          type="text"
+          name="username"
+          placeholder="Username or Email"
+          value={username}
+          onChange={handleUsername}
           required
         />
 

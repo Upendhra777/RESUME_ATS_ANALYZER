@@ -5,6 +5,7 @@ import "./index.css";
 const Register = () => {
   const navigate = useNavigate();
 
+  const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +13,10 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -32,7 +37,7 @@ const Register = () => {
     setSuccess("");
 
     const url = "http://localhost:5000/auth/register";
-    const userDetails = { name, email, password }
+    const userDetails = { username, name, email, password }
 
     const options = {
       method: "POST",
@@ -74,11 +79,19 @@ const Register = () => {
 
         <input
           type="text"
+          name="username"
+          placeholder="Username"
+          value={username}
+          onChange={handleUsernameChange}
+          required
+        />
+
+        <input
+          type="text"
           name="name"
           placeholder="Full Name"
           value={name}
           onChange={handleNameChange}
-          required
         />
 
         <input

@@ -4,12 +4,23 @@ import bcrypt from "bcryptjs";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, name, email, password } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+    // Validate required fields
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "Username, email, and password are required" });
+    }
+
+    // Check if username already exists
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: "Username already taken" });
+    }
+
+    // Check if email already exists
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already registered" });
     }
 
     // Hash password
@@ -17,7 +28,8 @@ export const register = async (req, res) => {
 
     // Create user
     const user = await User.create({
-      name,
+      username,
+      name: name || username,
       email,
       password: hashedPassword
     });
@@ -37,9 +49,17 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    // User can login with username or email
+    let user;
+    if (username) {
+      user = await User.findOne({ username });
+    } else if (email) {
+      user = await User.findOne({ email });
+    } else {
+      return res.status(400).json({ message: "Username or email is required" });
+    }
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
