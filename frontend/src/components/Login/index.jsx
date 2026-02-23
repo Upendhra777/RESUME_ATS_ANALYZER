@@ -22,7 +22,8 @@ const Login = () => {
     event.preventDefault()
     setLoading(true)
     setError("")
-    const url = "https://backend-resume-ats-analyzer.onrender.com/auth/login";
+    const API = import.meta.env.VITE_API_URL;
+    const url = `${API}/auth/login`;
     const userDetails = {
       username,
       password
