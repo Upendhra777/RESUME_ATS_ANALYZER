@@ -35,15 +35,23 @@ const Login = () => {
       },
       body: JSON.stringify(userDetails)
     }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log(data)
     
-    if (response.ok) {
-      localStorage.setItem("token", data.token);
-      navigate("/");
-    } else {
-      setError(data.message || "Login failed");
+    try {
+      const response = await fetch(url, options)
+      const data = await response.json()
+      console.log(data)
+      
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        setLoading(false)
+        navigate("/");
+      } else {
+        setError(data.message || "Login failed");
+        setLoading(false)
+      }
+    } catch (err) {
+      setError(err.message || "Network error");
+      setLoading(false)
     }
   };
 
