@@ -35,8 +35,8 @@ const YourResumes = () => {
       setError("");
  
       // STEP 1️⃣ Upload Resume
-      const uploadResponse = await fetch(
-       "https://backend-resume-ats-analyzer.onrender.com/resume/upload",
+     const API = import.meta.env.VITE_API_URL;
+      const uploadResponse = await fetch( `${API}/resume/upload`,
         {
           method: "POST",
           headers: {
@@ -59,9 +59,10 @@ const YourResumes = () => {
         jobDescription:
           "ANYTHING YOU WANT! For best results, use a real job description from a role you're interested in.",
       };
- 
+     
+     const API = import.meta.env.VITE_API_URL;
       const analyzeResponse = await fetch(
-       "https://backend-resume-ats-analyzer.onrender.com/resume/analyze",
+       `${API}/resume/analyze`,
         {
           method: "POST",
           headers: {
